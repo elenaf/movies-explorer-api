@@ -4,11 +4,22 @@ dotenv.config();
 
 const { errors } = require('celebrate');
 const express = require('express');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const router = require('./routes/router');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
+
+// подключить cors
+app.use(cors({
+  origin: [
+    'http://movie.nomoredomains.monster/',
+    'https://movie.nomoredomains.monster/',
+    'https://localhost:3000',
+    'http://localhost:3000',
+  ],
+}));
 
 const { PORT = 3000, DATABASE_URL = 'mongodb://localhost:27017/bitfilmsdb' } = process.env;
 
