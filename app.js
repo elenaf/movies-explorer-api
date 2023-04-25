@@ -6,8 +6,9 @@ const { errors } = require('celebrate');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const router = require('./routes/router');
+const router = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const err = require('./middlewares/err');
 
 const app = express();
 
@@ -35,16 +36,8 @@ app.use(errorLogger);
 // обработчик ошибок celebrate
 app.use(errors());
 
-// миддлвэр обработки ошибок
-app.use((err, req, res, next) => {
-  const { statusCode = 500, message } = err;
-  res.status(statusCode).send({
-    message: statusCode === 500
-      ? 'На сервере произошла ошибка'
-      : message,
-  });
-  next();
-});
+// подключаем миддлвэр обработки ошибок
+app.use(err);
 
 // подключаемся к БД
 async function connect() {

@@ -103,7 +103,9 @@ const updateProfile = async (req, res, next) => {
     if (!user) throw new NotFoundError('NotFound');
     res.status(OK).send(user);
   } catch (err) {
-    if (err.message === 'NotFound') {
+    if (err.code === MONGO_DUPLICATE_ERROR_CODE) {
+      next(new ConflictError('Данный email уже зарегистрирован'));
+    } else if (err.message === 'NotFound') {
       next(new NotFoundError('Некорректные данные'));
     } else if (err.name === 'ValidationError') {
       next(new BadRequestError('Некорректные данные'));
