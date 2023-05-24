@@ -15,8 +15,8 @@ const app = express();
 // подключить cors
 app.use(cors({
   origin: [
-    'http://movie.nomoredomains.monster/',
-    'https://movie.nomoredomains.monster/',
+    'http://movie.nomoredomains.monster',
+    'https://movie.nomoredomains.monster',
     'https://localhost:3000',
     'http://localhost:3000',
   ],
